@@ -1,9 +1,10 @@
 import {setBooks, setError, startFetchingBooks, stopFetchingBooks} from "../store/slices/books";
 import {booksApi} from "../api/books";
-import {AppDispatch, AppThunk} from "../store/store";
+import {AppThunk} from "../store/store";
+import {Dispatch} from "@reduxjs/toolkit";
 
 
-export const getBooks = (search: string, sortBy: string, filter: string, startIndex: string, books?: IBooks.IBook): AppThunk => async (dispatch: AppDispatch) => {
+export const getBooks = (search: string, sortBy: string, filter: string, startIndex: string, books?: IBooks.IBook): AppThunk => async (dispatch: Dispatch) => {
     try {
         dispatch(startFetchingBooks());
         const {data}: { data: IBooks.IBook } = await booksApi.getBooks(search, sortBy, filter, startIndex);

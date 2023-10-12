@@ -5,7 +5,7 @@ import {getBooks} from "../../services/books";
 import {Input} from "../../ui-components/Input";
 import {Select} from "../../ui-components/Select";
 import {categories, sortBy} from "../../consts/selectOptions";
-import {BooksCard} from "../BooksCard";
+import {BooksCard} from "../../components/BooksCard";
 import {customLocalStorage} from "../../utils/localStorage";
 import {If} from "../../ui-components/If";
 import {LoaderIcon} from "../../icons/loader";
