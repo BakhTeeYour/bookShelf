@@ -25,7 +25,7 @@ export const MainPage = () => {
 
 
     useEffect(() => {
-        !books && dispatch(getBooks(booksName, sort, category, '0'));
+        dispatch(getBooks(booksName, sort, category, '0'));
     }, [sort, category]);
 
     useEffect(() => {
