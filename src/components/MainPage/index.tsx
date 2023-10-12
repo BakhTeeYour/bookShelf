@@ -25,7 +25,6 @@ export const MainPage = () => {
 
 
     useEffect(() => {
-        // @ts-ignore
         !books && dispatch(getBooks(booksName, sort, category, '0'));
     }, [sort, category]);
 
@@ -37,15 +36,12 @@ export const MainPage = () => {
     const handleLoadMore = () => {
         setCurrIndex(prev => `${+prev! + 30}`);
         console.log(currIndex)
-        // @ts-ignore
-        dispatch(getBooks(booksName, sort, category, `${+currIndex + 30}`, books));
+        dispatch(getBooks(booksName, sort, category, `${+currIndex + 30}`, books!));
     };
     const handleClickByEnter = (event: React.KeyboardEvent<HTMLElement>) => {
-        // @ts-ignore
         event.key === 'Enter' && dispatch(getBooks(booksName, sort, category, '0'));
     };
     const handleClick = () => {
-        // @ts-ignore
         dispatch(getBooks(booksName, sort, category, '0'));
     };
     return (

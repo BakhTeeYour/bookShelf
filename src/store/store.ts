@@ -1,6 +1,6 @@
 import {Action, configureStore, ThunkAction} from '@reduxjs/toolkit';
 import Books from "./slices/books";
-import thunk from 'redux-thunk';
+
 
 
 const store = () =>
@@ -8,7 +8,7 @@ const store = () =>
         reducer: {
             books: Books,
         },
-        middleware: [thunk],
+        middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
         devTools: true
     });
 
