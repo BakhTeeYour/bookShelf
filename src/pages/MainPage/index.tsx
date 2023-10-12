@@ -9,13 +9,12 @@ import {BooksCard} from "../../components/BooksCard";
 import {customLocalStorage} from "../../utils/localStorage";
 import {If} from "../../ui-components/If";
 import {LoaderIcon} from "../../icons/loader";
+import {setParams} from "../../store/slices/books";
 
 export const MainPage = () => {
-    const {loading, books} = useAppSelector((state) => state.books);
+    const {loading, books, params: {category, sortingBy}} = useAppSelector((state) => state.books);
 
     const [booksName, setBooksName] = useState('');
-    const [category, setCategory] = useState('+category:');
-    const [sort, setSort] = useState('relevance');
 
     const [searchParams, setSearchParams] = useSearchParams();
     const [currIndex, setCurrIndex] = useState(searchParams.get('currPage') || '0');
@@ -23,10 +22,17 @@ export const MainPage = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
-
     useEffect(() => {
-        dispatch(getBooks(booksName, sort, category, '0'));
-    }, [sort, category]);
+        if (!books) {
+            dispatch(getBooks(booksName, 'relevance', '+category:', '0'));
+            return;
+        }
+        if (category !== '+category:' || sortingBy !== 'relevance') {
+            dispatch(getBooks(booksName, sortingBy, category, '0'));
+        }
+        setSearchParams({currPage: '0'});
+        setCurrIndex('0')
+    }, [sortingBy, category]);
 
     useEffect(() => {
         setSearchParams({currPage: currIndex!});
@@ -35,14 +41,13 @@ export const MainPage = () => {
 
     const handleLoadMore = () => {
         setCurrIndex(prev => `${+prev! + 30}`);
-        console.log(currIndex)
-        dispatch(getBooks(booksName, sort, category, `${+currIndex + 30}`, books!));
+        dispatch(getBooks(booksName, sortingBy, category, `${+currIndex + 30}`, books!));
     };
     const handleClickByEnter = (event: React.KeyboardEvent<HTMLElement>) => {
-        event.key === 'Enter' && dispatch(getBooks(booksName, sort, category, '0'));
+        event.key === 'Enter' && dispatch(getBooks(booksName, sortingBy, category, '0'));
     };
     const handleClick = () => {
-        dispatch(getBooks(booksName, sort, category, '0'));
+        dispatch(getBooks(booksName, sortingBy, category, '0'));
     };
     return (
         <div className="flex flex-col items-center mt-12 h-screen">
@@ -58,11 +63,11 @@ export const MainPage = () => {
                     <Select listTitle='Select a category'
                             placeholder='Category'
                             options={categories}
-                            onSelect={(selectedItem) => setCategory(selectedItem.uid)}/>
+                            onSelect={selectedItem => dispatch(setParams({data: selectedItem.uid, params: 'category'}))}/>
                     <Select listTitle='Select sorting'
                             placeholder='Sorting by'
                             options={sortBy}
-                            onSelect={(selectedItem) => setSort(selectedItem.uid)}/>
+                            onSelect={selectedItem => dispatch(setParams({data: selectedItem.uid, params: 'sortingBy'}))}/>
                 </div>
             </div>
             <main className='w-full bg-white my-10 flex flex-col gap-3 h-screen'>
@@ -91,5 +96,4 @@ export const MainPage = () => {
             </main>
         </div>
     );
-
 }
