@@ -18,10 +18,10 @@ export const CurrentBookPage = () => {
 
     return (
         <div className="lg:flex w-full h-screen">
-            <div className='lg:w-1/2 bg-secondary-10 lg:h-screen  lg:flex lg:items-center lg:justify-center flex flex-col items-center gap-2 h-1/2'>
-                <p className='lg:absolute underline text-secondary-250 underline-offset-4 cursor-pointer text-xl lg:top-10 lg:left-10'
+            <div className='lg:w-1/2 bg-secondary-10 lg:h-screen  lg:flex lg:items-center lg:justify-center h-1/2'>
+                <p className='lg:absolute underline text-secondary-250 ml-2 underline-offset-4 cursor-pointer text-xl lg:top-10 lg:left-10'
                    onClick={handleClick}>{`< Back to main`}</p>
-                <img className='lg:w-[600px] lg:h-[700px] w-[300px] h-[400px]' src={selectedBook?.imageLinks?.thumbnail}
+                <img className='lg:w-[600px] mx-auto mt-2 lg:h-[700px] w-[280px] h-[340px]' src={selectedBook?.imageLinks?.thumbnail}
                      alt="logo"/>
             </div>
             <div className='lg:w-1/2 lg:h-screen bg-white h-1/2'>
