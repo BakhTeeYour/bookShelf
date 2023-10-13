@@ -12,42 +12,36 @@ import {LoaderIcon} from "../../icons/loader";
 import {setParams} from "../../store/slices/books";
 
 export const MainPage = () => {
-    const {loading, books, params: {category, sortingBy}} = useAppSelector((state) => state.books);
-
+    const {loading, books, params: {category, sortingBy, currPage}} = useAppSelector((state) => state.books);
     const [booksName, setBooksName] = useState('');
-
-    const [searchParams, setSearchParams] = useSearchParams();
-    const [currIndex, setCurrIndex] = useState(searchParams.get('currPage') || '0');
-
+    const [_, setSearchParams] = useSearchParams();
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!books) {
-            dispatch(getBooks(booksName, 'relevance', '+category:', '0'));
-            return;
-        }
-        if (category !== '+category:' || sortingBy !== 'relevance') {
-            dispatch(getBooks(booksName, sortingBy, category, '0'));
-        }
-        setSearchParams({currPage: '0'});
-        setCurrIndex('0')
-    }, [sortingBy, category]);
+        !books && dispatch(getBooks(booksName, sortingBy, category, '0'));
+    }, []);
 
     useEffect(() => {
-        setSearchParams({currPage: currIndex!});
-    }, [currIndex]);
+        setSearchParams({currPage: currPage});
+    }, [currPage]);
 
 
     const handleLoadMore = () => {
-        setCurrIndex(prev => `${+prev! + 30}`);
-        dispatch(getBooks(booksName, sortingBy, category, `${+currIndex + 30}`, books!));
+        dispatch(setParams({data: `${+currPage + 30}`, params: 'currPage'}));
+        dispatch(getBooks(booksName, sortingBy, category, `${+currPage + 30}`, books!));
     };
     const handleClickByEnter = (event: React.KeyboardEvent<HTMLElement>) => {
         event.key === 'Enter' && dispatch(getBooks(booksName, sortingBy, category, '0'));
     };
     const handleClick = () => {
         dispatch(getBooks(booksName, sortingBy, category, '0'));
+    };
+    const getBook = (selectedItem: string, params: string) => {
+        setSearchParams({currPage: '0'});
+        dispatch(setParams({data: selectedItem, params}));
+        dispatch(setParams({data: '0', params: 'currPage'}));
+        dispatch(getBooks(booksName, params === 'sortingBy' ? selectedItem : sortingBy, params === 'category' ? selectedItem : category, '0'));
     };
     return (
         <div className="flex flex-col items-center mt-12 h-screen">
@@ -63,11 +57,11 @@ export const MainPage = () => {
                     <Select listTitle='Select a category'
                             placeholder='Category'
                             options={categories}
-                            onSelect={selectedItem => dispatch(setParams({data: selectedItem.uid, params: 'category'}))}/>
+                            onSelect={selectedItem => getBook(selectedItem.uid, 'category')}/>
                     <Select listTitle='Select sorting'
                             placeholder='Sorting by'
                             options={sortBy}
-                            onSelect={selectedItem => dispatch(setParams({data: selectedItem.uid, params: 'sortingBy'}))}/>
+                            onSelect={selectedItem => getBook(selectedItem.uid, 'sortingBy')}/>
                 </div>
             </div>
             <main className='w-full bg-white my-10 flex flex-col gap-3 h-screen'>

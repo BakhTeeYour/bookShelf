@@ -8,7 +8,8 @@ interface IBooksSlice {
     params: {
         category: string,
         sortingBy: string,
-    }
+        currPage: string
+    },
 }
 
 const initialState: IBooksSlice = {
@@ -16,7 +17,7 @@ const initialState: IBooksSlice = {
     error: null,
     books: null,
     selectedBook: null,
-    params: {category: '+category:', sortingBy: 'relevance'}
+    params: {category: '+category:', sortingBy: 'relevance', currPage: '0'},
 };
 
 const BooksSlice = createSlice({
@@ -30,16 +31,16 @@ const BooksSlice = createSlice({
             state.loading = false;
         },
         setError: (state, action) => {
-            state.error = action.payload
+            state.error = action.payload;
         },
         setBooks: (state, action) => {
-            state.books = action.payload
+            state.books = action.payload;
         },
         setSelectedBooks: (state, action) => {
-            state.selectedBook = action.payload
+            state.selectedBook = action.payload;
         },
         setParams: (state, action) => {
-            state.params[action.payload.params as keyof typeof initialState.params] = action.payload.data
+            state.params[action.payload.params as keyof typeof initialState.params] = action.payload.data;
         },
     },
 });
