@@ -1,0 +1,7 @@
+version: '3.8'
+services:
+  bookshelves:
+    build: ./
+    container_name: bookshelves
+    ports:
+      - '3000:3000'
