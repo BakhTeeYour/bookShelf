@@ -17,22 +17,22 @@ export const CurrentBookPage = () => {
     }, []);
 
     return (
-        <div className="flex w-full h-screen">
-            <div className='w-1/2 bg-secondary-10  flex items-center justify-center'>
-                <p className='absolute underline text-secondary-250 underline-offset-4 cursor-pointer text-xl top-10 left-10'
+        <div className="lg:flex w-full h-screen">
+            <div className='lg:w-1/2 bg-secondary-10 lg:h-screen  lg:flex lg:items-center lg:justify-center flex flex-col items-center gap-2 h-1/2'>
+                <p className='lg:absolute underline text-secondary-250 underline-offset-4 cursor-pointer text-xl lg:top-10 lg:left-10'
                    onClick={handleClick}>{`< Back to main`}</p>
                 <img className='lg:w-[600px] lg:h-[700px] w-[300px] h-[400px]' src={selectedBook?.imageLinks?.thumbnail}
                      alt="logo"/>
             </div>
-            <div className='w-1/2 bg-white'>
-                <div className='ml-4 flex flex-col gap-5 my-10'>
-                    <p className={`underline text-xl underline-offset-4 text-secondary-250 h-[18px]`}>{selectedBook?.categories?.map((e, i) =>
+            <div className='lg:w-1/2 lg:h-screen bg-white h-1/2'>
+                <div className='ml-4 flex flex-col gap-5 lg:my-10'>
+                    <p className={`underline text-xl underline-offset-4 text-secondary-250 h-[18px] mt-5`}>{selectedBook?.categories?.map((e, i) =>
                         <span key={i}>{e}</span>)}</p>
                     <p className='text-2xl font-bold'>{selectedBook?.title}</p>
                     <p className='text-secondary-250 text-xl'>{selectedBook?.authors?.map((e, i) => <span key={i}
                         className='first:ml-0 ml-1'>{e}</span>)}</p>
                     <div className='border min-h-[200px] mr-4'>
-                        <p className='p-5 text-xl overflow-auto h-[640px]'>{selectedBook?.description}</p>
+                        <p className='p-5 text-xl lg:overflow-auto lg:h-[640px]'>{selectedBook?.description}</p>
                     </div>
                 </div>
             </div>
