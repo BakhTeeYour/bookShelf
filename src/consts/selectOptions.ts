@@ -38,4 +38,4 @@ export const sortBy = [
         value: 'Newest',
         uid: 'newest',
     },
-]
+];
